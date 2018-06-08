@@ -1,0 +1,52 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.header-container {
+  display: flex;
+  flex-grow: 1;
+  background-color: aquamarine;
+  height: 48px;
+}
+
+.body-container {
+  display: flex;
+  flex-grow: 10;
+  background-color: bisque;
+}
+
+.header-name {
+  font-size: 32px;
+}
+
+.web-logo {
+  display: flex;
+  flex-grow: 1;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: 16px;
+}
+
+.todo-container {
+  background-color: #f7f7f7;
+  box-shadow: 2px 2px rgba(226, 226, 226, 0.911);
+}
+
+.dropdown-filter {
+  background-color: rgb(124, 177, 238);
+  margin-left: 4px;
+}
+.dropdown-filter:hover {
+  background-color: rgb(38, 132, 240);
+}
+
+.filter {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 8px;  
+}
