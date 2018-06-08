@@ -41,6 +41,14 @@
 .dropdown-filter:hover {
   background-color: rgb(38, 132, 240);
 }
+.dropdown-item-each {
+  margin: 16px;
+  margin-left: 16px;
+}
+.dropdown-item-each:hover {
+  cursor: pointer;
+  background-color: aliceblue;
+}
 
 .filter {
   display: flex;

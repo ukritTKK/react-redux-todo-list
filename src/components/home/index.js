@@ -1,4 +1,4 @@
-import React, { Component, FlatList } from 'react'
+import React, { Component } from 'react'
 import { Container, Row, Col, Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import './style.css'
 
@@ -87,16 +87,16 @@ class home extends Component {
                       {this.props.home.dropdownFilter}
                     </DropdownToggle>
                     <DropdownMenu>
-                      <div id='All' onClick={this.handleClick}>All</div>
-                      <div id='Completed' onClick={this.handleClick}>Completed</div>
-                      <div id='Incompleted' onClick={this.handleClick}>Incompleted</div>
+                      <div className='dropdown-item-each' id='All' onClick={this.handleClick}>All</div>
+                      <div className='dropdown-item-each' id='Completed' onClick={this.handleClick}>Completed</div>
+                      <div className='dropdown-item-each' id='Incompleted' onClick={this.handleClick}>Incompleted</div>
                     </DropdownMenu>
                   </Dropdown>
                 </div>
               </div>
             </Row>
             <Row>
-              
+
             </Row>
           </Col>
         </Row>
