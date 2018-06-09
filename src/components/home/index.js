@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import { Container, Row, Col, Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
+import { Container, Row, Col, Dropdown, DropdownToggle, DropdownMenu, Input } from 'reactstrap'
 import './style.css'
+import clearIcon from './baseline-clear-24px.svg'
+import editIcon from './baseline-edit-24px.svg'
 
 class home extends Component {
   constructor(props) {
@@ -11,26 +13,62 @@ class home extends Component {
 
     this.handleClick = this.handleClick.bind(this)
     this.handleToggle = this.handleToggle.bind(this)
+    this.handleCheckbox = this.handleCheckbox.bind(this)
   }
 
-  handleClick(e) {
-    this.props.onDropdownItemClick(e.target.id)
+  handleClick = event => {
+    this.props.onDropdownItemClick(event.target.id)
     this.handleToggle()
-    setTimeout(() => {
-      console.log(this.props.home.dropdownFilter)
-    }, 250)
   }
 
-  handleToggle() {
+  handleToggle = () => {
     this.props.toggleDropdownFilter()
   }
 
-  renderFlatListItem() {
+  handleCheckbox = event => {
+    // console.log(event.target.id)
+    this.props.toggleActiveTask(event.target.id)
+  }
+
+  TodoList = props => {
+    const todos = props.todos
+    const todoItems = todos.map((todoEach, index) => {
+      let todoItem
+      if (props.filter === 'All') {
+        todoItem = (
+          <div className='todoItem-each' key={index} >
+            <div className='todo-checkbox' onChange={this.handleCheckbox}><Input id={index} type='checkbox'/></div>
+            <div className='todo-task'>{todoEach.task}</div>
+            <div className='todo-edit'><img src={editIcon} className='icon' alt=''/></div>
+            <div className='todo-del'><img src={clearIcon} className='icon' alt=''/></div>
+          </div>
+        )
+      }
+      else if (props.filter === 'Completed' && todoEach.status === 'Completed') {
+        todoItem = (
+          <div className='todoItem-each' key={index} >
+            <div className='todo-checkbox' onClick={this.handleCheckbox}><Input id={index} type='checkbox'/></div>
+            <div className='todo-task'>{todoEach.task}</div>
+            <div className='todo-edit'><img src={editIcon} className='icon' alt=''/></div>
+            <div className='todo-del'><img src={clearIcon} className='icon' alt=''/></div>
+          </div>
+        )
+      }
+      else if (props.filter === 'Incompleted' && todoEach.status === 'Incompleted') {
+        todoItem = (
+          <div className='todoItem-each' key={index} >
+            <div className='todo-checkbox' onClick={this.handleCheckbox}><Input id={index} type='checkbox'/></div>
+            <div className='todo-task'>{todoEach.task}</div>
+            <div className='todo-edit'><img src={editIcon} className='icon' alt=''/></div>
+            <div className='todo-del'><img src={clearIcon} className='icon' alt=''/></div>
+          </div>
+        )
+      }
+      return todoItem
+    })
 
     return (
-      <div>
-        ss
-      </div>
+      <div>{todoItems}</div>
     )
   }
 
@@ -65,7 +103,7 @@ class home extends Component {
       <Container>
         <Row>
           <Col>
-            <p className='header-name'>Todo List</p>
+            <h1 className='header-name'>Todo List</h1>
           </Col>
         </Row>
         <Row>
@@ -75,7 +113,7 @@ class home extends Component {
         </Row>
         <Row>
           <Col sm={{ size: 6, order: 2, offset: 2 }} className='todo-container'>
-            <div>Reminders</div>
+            <div className='header2'>Reminders</div>
             <Row>
               <div className='filter'>
                 <div>
@@ -96,7 +134,9 @@ class home extends Component {
               </div>
             </Row>
             <Row>
-
+              <div className='todoList' >
+                <this.TodoList todos={this.props.home.todoList} filter={this.props.home.dropdownFilter}/>
+              </div>
             </Row>
           </Col>
         </Row>

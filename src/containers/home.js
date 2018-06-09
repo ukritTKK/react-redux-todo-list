@@ -3,7 +3,8 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import Home from '../components/home/index'
-import { onDropdownItemClick, toggleDropdownFilter } from '../actions/onDropdownItemClick'
+import { onDropdownItemClick, toggleDropdownFilter } from '../actions/DropdownActions'
+import { toggleActiveTask } from '../actions/CheckBoxActions'
 // import toggleDropdownFilter from '../actions/toggleDropdownFilter'
 
 class HomeContainer extends Component {
@@ -24,7 +25,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   onDropdownItemClick,
-  toggleDropdownFilter
+  toggleDropdownFilter,
+  toggleActiveTask
 }, dispatch)
 
 export default connect(
