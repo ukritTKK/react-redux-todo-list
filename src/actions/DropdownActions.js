@@ -1,5 +1,5 @@
 
-export function onDropdownItemClick(filter){
+export function onSelectFilter(filter){
   return (dispatch) =>{
       dispatch({
           type : 'Set_Filter',

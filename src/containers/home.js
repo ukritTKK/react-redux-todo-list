@@ -3,9 +3,8 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import Home from '../components/home/index'
-import { onDropdownItemClick, toggleDropdownFilter } from '../actions/DropdownActions'
-import { toggleActiveTask } from '../actions/CheckBoxActions'
-// import toggleDropdownFilter from '../actions/toggleDropdownFilter'
+import { onSelectFilter, toggleDropdownFilter } from '../actions/DropdownActions'
+import { toggleActiveTask, AddTask, EditTask, RemoveTask, toggleEditModal, toggleRemoveModal, SaveEditTask, toggleAddModal, AddNewTask } from '../actions/TaskActions'
 
 class HomeContainer extends Component {
   render() {
@@ -24,9 +23,17 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  onDropdownItemClick,
+  onSelectFilter,
   toggleDropdownFilter,
-  toggleActiveTask
+  toggleActiveTask,
+  toggleEditModal,
+  AddTask,
+  EditTask,
+  RemoveTask,
+  toggleRemoveModal,
+  SaveEditTask,
+  toggleAddModal,
+  AddNewTask
 }, dispatch)
 
 export default connect(

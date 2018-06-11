@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Container, Row, Col, Dropdown, DropdownToggle, DropdownMenu, Input } from 'reactstrap'
+import { Container, Row, Col, Dropdown, DropdownToggle, DropdownMenu, Input, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import './style.css'
-import clearIcon from './baseline-clear-24px.svg'
-import editIcon from './baseline-edit-24px.svg'
+import addIcon from './img/baseline-add-24px.svg'
+import TodoList from './TodoList'
 
 class home extends Component {
   constructor(props) {
@@ -11,65 +11,44 @@ class home extends Component {
 
     }
 
-    this.handleClick = this.handleClick.bind(this)
-    this.handleToggle = this.handleToggle.bind(this)
-    this.handleCheckbox = this.handleCheckbox.bind(this)
+    this.handleSelectFilter = this.handleSelectFilter.bind(this)
+    this.handleDropdown = this.handleDropdown.bind(this)
+    this.toggleAddTaskModal = this.toggleAddTaskModal.bind(this)
+    this.handleAddTask = this.handleAddTask.bind(this)
+
+    this.handleTitleChange = this.handleTitleChange.bind(this)
+    this.handleDescChange = this.handleDescChange.bind(this)
+    this.handleDateChange = this.handleDateChange.bind(this)
   }
 
-  handleClick = event => {
-    this.props.onDropdownItemClick(event.target.id)
-    this.handleToggle()
+  handleSelectFilter = event => {
+    this.props.onSelectFilter(event.target.id)
+    this.handleDropdown()
   }
 
-  handleToggle = () => {
+  handleDropdown = () => {
     this.props.toggleDropdownFilter()
   }
 
-  handleCheckbox = event => {
-    // console.log(event.target.id)
-    this.props.toggleActiveTask(event.target.id)
+  toggleAddTaskModal = () => {
+    this.props.toggleAddModal()
   }
 
-  TodoList = props => {
-    const todos = props.todos
-    const todoItems = todos.map((todoEach, index) => {
-      let todoItem
-      if (props.filter === 'All') {
-        todoItem = (
-          <div className='todoItem-each' key={index} >
-            <div className='todo-checkbox' onChange={this.handleCheckbox}><Input id={index} type='checkbox'/></div>
-            <div className='todo-task'>{todoEach.task}</div>
-            <div className='todo-edit'><img src={editIcon} className='icon' alt=''/></div>
-            <div className='todo-del'><img src={clearIcon} className='icon' alt=''/></div>
-          </div>
-        )
-      }
-      else if (props.filter === 'Completed' && todoEach.status === 'Completed') {
-        todoItem = (
-          <div className='todoItem-each' key={index} >
-            <div className='todo-checkbox' onClick={this.handleCheckbox}><Input id={index} type='checkbox'/></div>
-            <div className='todo-task'>{todoEach.task}</div>
-            <div className='todo-edit'><img src={editIcon} className='icon' alt=''/></div>
-            <div className='todo-del'><img src={clearIcon} className='icon' alt=''/></div>
-          </div>
-        )
-      }
-      else if (props.filter === 'Incompleted' && todoEach.status === 'Incompleted') {
-        todoItem = (
-          <div className='todoItem-each' key={index} >
-            <div className='todo-checkbox' onClick={this.handleCheckbox}><Input id={index} type='checkbox'/></div>
-            <div className='todo-task'>{todoEach.task}</div>
-            <div className='todo-edit'><img src={editIcon} className='icon' alt=''/></div>
-            <div className='todo-del'><img src={clearIcon} className='icon' alt=''/></div>
-          </div>
-        )
-      }
-      return todoItem
-    })
+  handleAddTask = () => {
+    this.props.AddNewTask()
+    this.toggleAddTaskModal()
+  }
 
-    return (
-      <div>{todoItems}</div>
-    )
+  handleTitleChange = event => {
+    this.props.AddTask('title', event.target.value)
+  }
+
+  handleDescChange = event => {
+    this.props.AddTask('desc', event.target.value)
+  }
+
+  handleDateChange = event => {
+    this.props.AddTask('due', event.target.value)
   }
 
   render() {
@@ -113,21 +92,25 @@ class home extends Component {
         </Row>
         <Row>
           <Col sm={{ size: 6, order: 2, offset: 2 }} className='todo-container'>
-            <div className='header2'>Reminders</div>
+            <div className='sub-header'>Reminders</div>
             <Row>
+              <div className='addButton' onClick={this.toggleAddTaskModal}>
+                <img src={addIcon} alt='' className='addIcon'/>
+                <div className='addText'>Add new task</div>
+              </div>
               <div className='filter'>
                 <div>
                   Filter:
                 </div>
                 <div>
-                  <Dropdown isOpen={this.props.home.IsDropdownShow} size='sm' toggle={this.handleToggle}>
+                  <Dropdown isOpen={this.props.home.IsDropdownShow} size='sm' toggle={this.handleDropdown}>
                     <DropdownToggle caret className='dropdown-filter'>
                       {this.props.home.dropdownFilter}
                     </DropdownToggle>
                     <DropdownMenu>
-                      <div className='dropdown-item-each' id='All' onClick={this.handleClick}>All</div>
-                      <div className='dropdown-item-each' id='Completed' onClick={this.handleClick}>Completed</div>
-                      <div className='dropdown-item-each' id='Incompleted' onClick={this.handleClick}>Incompleted</div>
+                      <div className='dropdown-item-each' id='All' onClick={this.handleSelectFilter}>All</div>
+                      <div className='dropdown-item-each' id='Completed' onClick={this.handleSelectFilter}>Completed</div>
+                      <div className='dropdown-item-each' id='Incompleted' onClick={this.handleSelectFilter}>Incompleted</div>
                     </DropdownMenu>
                   </Dropdown>
                 </div>
@@ -135,11 +118,32 @@ class home extends Component {
             </Row>
             <Row>
               <div className='todoList' >
-                <this.TodoList todos={this.props.home.todoList} filter={this.props.home.dropdownFilter}/>
+                <TodoList todos={this.props.home.todoList} filter={this.props.home.dropdownFilter} {...this.props}/>
               </div>
             </Row>
           </Col>
         </Row>
+        <Modal isOpen={this.props.home.IsModalAddTaskShow} toggle={this.toggleAddTaskModal}>
+          <ModalHeader toggle={this.toggleAddTaskModal}>Add task</ModalHeader>
+          <ModalBody>
+            <div>
+              Title:
+              <Input className='edit-input' placeholder='Title' onChange={this.handleTitleChange} value={this.props.home.currAddTitle} />
+            </div>
+            <div>
+              Description:
+              <Input className='edit-input' placeholder='Description' onChange={this.handleDescChange} value={this.props.home.currAddDesc} />
+            </div>
+            <div>
+              Due date:
+              <Input className='edit-input' placeholder='Due date' onChange={this.handleDateChange} value={this.props.home.currAddDue} />
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={this.handleAddTask}>Add</Button>{' '}
+            <Button color="secondary" onClick={this.toggleAddTaskModal}>Cancel</Button>
+          </ModalFooter>
+        </Modal>
       </Container>
     )
   }
