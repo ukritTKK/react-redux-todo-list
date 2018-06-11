@@ -11,6 +11,9 @@ export function toggleActiveTask(id){
       todoList[id].status = 'Incompleted'
       todoList[id].done = false
     }
+
+    localStorage.todoList = JSON.stringify(todoList)
+
     dispatch({
       type : 'Toggle_Task',
       payload : todoList
@@ -25,6 +28,8 @@ export function RemoveTask(id){
     
     todoList.splice(id, 1)
 
+    localStorage.todoList = JSON.stringify(todoList)
+
     dispatch({
       type : 'Remove_Task',
       payload : todoList
@@ -34,13 +39,17 @@ export function RemoveTask(id){
 
 export function toggleRemoveModal(id){
 
-  console.log('id: ', id)
+  return (dispatch, getState) =>{
+    let RemoveModalShow = getState().home.IsModalRemoveTaskShow
+    let newId = id
+    if (RemoveModalShow) {
+      newId = 0
+    }
 
-  return (dispatch) =>{
-      dispatch({
-          type : 'Toggle_Remove_Modal',
-          payload : id
-      })
+    dispatch({
+        type : 'Toggle_Remove_Modal',
+        payload : newId
+    })
   }
 }
 
@@ -52,10 +61,12 @@ export function toggleEditModal(id){
     let newTitle = getState().home.currEditTitle
     let newDesc = getState().home.currEditDesc
     let newDue = getState().home.currEditDue
+    let newId = id
     if (EditModalShow) {
       newTitle = ''
       newDesc = ''
       newDue = ''
+      newId = 0
     }
     else {
       newTitle = getState().home.todoList[id].title
@@ -65,7 +76,7 @@ export function toggleEditModal(id){
     
     dispatch({
         type : 'Toggle_Edit_Modal',
-        payload : id,
+        payload : newId,
         payload2 : newTitle,
         payload3: newDesc,
         payload4: newDue
@@ -108,6 +119,8 @@ export function SaveEditTask(id){
     todoList[id].title = getState().home.currEditTitle
     todoList[id].desc = getState().home.currEditDesc
     todoList[id].due = getState().home.currEditDue
+
+    localStorage.todoList = JSON.stringify(todoList)
 
     dispatch({
       type : 'Save_Edit_Task',
@@ -156,10 +169,6 @@ export function AddTask(type, val){
       newDue = val
     }
 
-    console.log(newTitle)
-    console.log(newDesc)
-    console.log(newDue)
-
     dispatch({
       type : 'Add_Task',
       payload : newTitle,
@@ -179,13 +188,17 @@ export function AddNewTask(){
     let newDue = getState().home.currAddDue
 
     let newTask = {
-      task_id: todoList.length+1,
+      task_id: Math.floor(Math.random() * 1000) + 1,
       title: newTitle,
       desc: newDesc,
-      due: newDue
+      due: newDue,
+      status: 'Incompleted',
+      done: false
     }
 
     todoList.push(newTask)
+
+    localStorage.todoList = JSON.stringify(todoList)
 
     dispatch({
       type : 'Add_New_Task',

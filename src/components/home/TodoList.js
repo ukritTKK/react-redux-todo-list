@@ -28,12 +28,10 @@ class TodoList extends Component {
   }
 
   handleCheckbox = event => {
-    console.log(event.target.id)
     this.props.toggleActiveTask(event.target.id)
   }
 
   handleTaskEdit = event => {
-    console.log(event.target.id)
     this.props.toggleEditModal(event.target.id)
   }
 
@@ -74,6 +72,13 @@ class TodoList extends Component {
   }
 
   render () {
+    let task_id
+    if (this.props.home.todoList.length === 0) {
+      task_id = ''
+    }
+    else {
+      task_id = this.props.home.todoList[this.props.home.selectedTaskId].task_id
+    }
     let todos = this.props.todos
     let todoItems = todos.map((todoEach, index) => {
       let todoItem
@@ -104,7 +109,10 @@ class TodoList extends Component {
         todoItem = (
           <div className='todoItem-each' key={index} >
             <div className='todo-checkbox'><Input id={index} type='checkbox' onChange={this.handleCheckbox} checked={this.props.home.todoList[index].done}/></div>
-            <div className='todo-task-done'>{todoEach.title}</div>
+            <div className='todo-task-done'>
+              <div className='todo-task-title'>{todoEach.title}</div>
+              <div className='todo-task-due'>{this.props.home.todoList[index].due}</div>
+            </div>
             <div className='todo-edit' onClick={this.handleTaskEdit}><img src={editIcon} id={index} className='icon' alt=''/></div>
             <div className='todo-del' onClick={this.handleTaskRemove}><img src={clearIcon} id={index} className='icon' alt=''/></div>
           </div>
@@ -114,7 +122,10 @@ class TodoList extends Component {
         todoItem = (
           <div className='todoItem-each' key={index} >
             <div className='todo-checkbox'><Input id={index} type='checkbox' onChange={this.handleCheckbox} checked={this.props.home.todoList[index].done}/></div>
-            <div className='todo-task'>{todoEach.title}</div>
+            <div className='todo-task'>
+              <div className='todo-task-title'>{todoEach.title}</div>
+              <div className='todo-task-due'>{this.props.home.todoList[index].due}</div>
+            </div>
             <div className='todo-edit' onClick={this.handleTaskEdit}><img src={editIcon} id={index} className='icon' alt=''/></div>
             <div className='todo-del' onClick={this.handleTaskRemove}><img src={clearIcon} id={index} className='icon' alt=''/></div>
           </div>
@@ -139,7 +150,7 @@ class TodoList extends Component {
           <ModalHeader toggle={this.toggleEditTaskModal}>Edit task</ModalHeader>
           <ModalBody>
             <div>
-              Task id: {this.props.home.selectedTaskId}
+              Task id: {task_id}
             </div>
             <div>
               Title:

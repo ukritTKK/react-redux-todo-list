@@ -71,9 +71,7 @@
   flex-direction: row;
   margin: 4px;
   padding: 8px;
-  /* justify-content: center; */
   align-items: center;
-  /* background-color: aquamarine; */
 }
 .todo-checkbox {
   display: flex;
@@ -81,8 +79,6 @@
   justify-content: center;
   align-items: center;
   margin-left: 16px;
-  /* margin-bottom: 4px; */
-  /* background-color: red; */
 }
 .todo-task {
   display: flex;
@@ -97,7 +93,6 @@
   flex-direction: column;
   text-decoration: line-through;
   color: #979797
-  /* background-color: blue; */
 }
 .todo-task-title {
   display: flex;
@@ -114,25 +109,18 @@
   flex-grow: 0.25;
   justify-content: center;
   align-items: center;
-  /* background-color: green; */
 }
 .todo-del {
   display: flex;
   flex-grow: 0.25;
   justify-content: center;
   align-items: center;
-  /* background-color: yellow; */
 }
 .addButton {
   display: flex;
   flex-direction: row;
-  /* user-select: none;
-  cursor: pointer; */
-  /* background-color: lightblue; */
 }
 .addIcon {
-  /* height: 16px;
-  width: 16px; */
   display: flex;
   user-select: none;
   cursor: pointer;

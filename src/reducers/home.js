@@ -3,32 +3,7 @@ const initialState = {
   type: '',
   dropdownFilter: 'All',
   IsDropdownShow: false,
-  todoList: [
-    {
-      task_id: 1,
-      title: 'Todo 1',
-      desc: '',
-      due: '6/11/18 9.00 AM',
-      status: 'Incompleted',
-      done: false
-    },
-    {
-      task_id: 2,
-      title: 'Todo 2',
-      desc: '',
-      due: '6/7/18 4.00 PM',
-      status: 'Completed',
-      done: true
-    },
-    {
-      task_id: 3,
-      title: 'Todo 3',
-      desc: '',
-      due: '6/14/18 11.30 PM',
-      status: 'Incompleted',
-      done: false
-    }
-  ],
+  todoList: JSON.parse(localStorage.todoList),
   IsModalAddTaskShow: false,
   IsModalEditTaskShow: false,
   IsModalRemoveTaskShow: false,
